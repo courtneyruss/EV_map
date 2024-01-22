@@ -1,13 +1,10 @@
-# Install necessary packages if not installed
-# install.packages(c("shiny", "leaflet", "dplyr", "DT"))
-
-# Load required libraries
 library(shiny)
 library(leaflet)
 library(dplyr)
 library(DT)
 library(stringr)
 library(tools)
+library(shinythemes)
 
 # Load data
 data <- read.csv("EV_Roam_charging_stations.csv") %>%
@@ -26,46 +23,8 @@ data <- read.csv("EV_Roam_charging_stations.csv") %>%
 
 # Define UI
 ui <- fluidPage(
-  # Add a custom style for the title
-  tags$head(
-    tags$style(HTML("
-      .title {
-        font-size: 32px;
-        font-weight: bold;
-        color: #3498db;
-        text-align: center;
-        margin: 20px 0;
-      }
-      .sidebar {
-        background-color: #ecf0f1;
-        padding: 15px;
-        border-radius: 10px;
-        margin: 20px;
-      }
-      .filterSidebar {
-        width: 100%;
-        background-color: #ffffff; /* Same as infoBox */
-        border: 2px solid #ccc;
-        border-radius: 10px;
-        padding: 15px;
-        margin-bottom: 20px; /* Add margin between filter and info sections */
-      }
-      .infoBox {
-        padding: 20px;
-        background-color: #ffffff;
-        border: 2px solid #ccc;
-        border-radius: 10px;
-        margin-bottom: 20px; /* Add margin between info and map sections */
-      }
-    "))
-  ),
-  # Title panel with custom styling
-  titlePanel(
-    div(
-      class = "title",
-      "New Zealand EV Charging Stations Map"
-    )
-  ),
+  theme = shinytheme("cerulean"),
+  titlePanel("New Zealand EV Charging Stations Map"),
   
   sidebarLayout(
     sidebarPanel(
@@ -101,23 +60,7 @@ ui <- fluidPage(
     mainPanel(
       leafletOutput("map", width = "100%", height = "600px")
     )
-  ),
-  
-  # Add styling to the entire page
-  tags$head(
-    tags$style(HTML("
-      body {
-        background-color: #f5f5f5;
-        margin: 20px;
-      }
-      .container-fluid {
-        border: 2px solid #ddd;
-        border-radius: 10px;
-        padding: 20px;
-      }
-    "))
-  )
-)
+  ))
 
 # Define server
 server <- function(input, output, session) {
